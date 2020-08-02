@@ -149,8 +149,8 @@ class Word:
     def add_lookup(self,lemma,stem,ending=""):
         word_form = stem + ending
         Word_Form = word_form.capitalize()
-        self.all_forms[word_form] = lemma
-        self.all_forms[Word_Form] = lemma
+        self.all_forms[word_form] = unidecode(lemma)
+        self.all_forms[Word_Form] = unidecode(lemma)
 
 class Noun(Word):
     """
@@ -621,8 +621,8 @@ def make_lemmata():
         else:
             form = unidecode(entry[0])
             lemma = unidecode(entry[-1])
-            all_lemmata[form] = lemma
-            all_lemmata[form.capitalize()] = lemma
+            all_lemmata[form] = unidecode(lemma)
+            all_lemmata[form.capitalize()] = unidecode(lemma)
 
     with open("la_lemma_lookup.json", 'w', encoding='utf-8') as f:
         json.dump(all_lemmata, f, ensure_ascii=False)
