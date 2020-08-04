@@ -8,6 +8,12 @@ from endings import composites, doubles,conjugations,present_system,perfect_syst
 from endings import perfect_syncopated
 from endings import adverbs_in_e, adverbs_in_iter
 from unidecode import unidecode
+from cltk.stem.latin.j_v import JVReplacer
+
+def jv_replace(jv):
+    j = JVReplacer()
+
+    return j.replace(jv)
 
 class Word:
     """
@@ -99,6 +105,8 @@ class Word:
             else:
                 new_form += character
 
+        new_form = jv_replace(new_form)
+
         return new_form
 
     def show_broken_entries(self):
@@ -147,7 +155,9 @@ class Word:
 #        return parts_of_speech[category]
 
     def add_lookup(self,lemma,stem,ending=""):
+        lemma = jv_replace(lemma)
         word_form = stem + ending
+        word_form = jv_replace(word_form)
         Word_Form = word_form.capitalize()
         self.all_forms[word_form] = unidecode(lemma)
         self.all_forms[Word_Form] = unidecode(lemma)
@@ -620,7 +630,9 @@ def make_lemmata():
 ########
         else:
             form = unidecode(entry[0])
+            form = jv_replace(form)
             lemma = unidecode(entry[-1])
+            lemma = jv_replace(form)
             all_lemmata[form] = unidecode(lemma)
             all_lemmata[form.capitalize()] = unidecode(lemma)
 
